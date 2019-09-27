@@ -10,12 +10,6 @@ WEB_HOOK_URL = os.environ["WEB_HOOK_URL"]
 def description_of(event_type):
     if event_type == 'channel_created':
         return '作成されました'
-    # elif event_type == 'channel_archive': # チャンネル名が取得できない
-    #     return 'アーカイブされました'
-    # elif event_type == 'channel_deleted':
-    #     return '削除されました'
-    # elif event_type == 'channel_unarchive':
-    #     return 'アーカイブ解除されました'
     elif event_type == 'channel_rename':
         return '名前が変更されました'
     else:
@@ -36,7 +30,6 @@ def lambda_handler(event, context):
     if 'challenge' in event.keys():
         return event['challenge']
 
-    # check token
     if not is_verify_token(event):
         raise Exception('Unexpected Token.')
 
