@@ -88,12 +88,12 @@ resource "aws_api_gateway_method" "slack_event_method" {
 }
 
 resource "aws_api_gateway_integration" "slack_event_integration" {
-  rest_api_id = data.aws_api_gateway_rest_api.slack_api.id
-  resource_id = aws_api_gateway_resource.slack_event_resource.id
-  http_method = aws_api_gateway_method.slack_event_method.http_method
+  rest_api_id             = data.aws_api_gateway_rest_api.slack_api.id
+  resource_id             = aws_api_gateway_resource.slack_event_resource.id
+  http_method             = aws_api_gateway_method.slack_event_method.http_method
   integration_http_method = "POST"
-  type = "AWS_PROXY"
-  uri = "arn:aws:apigateway:${var.myregion}:lambda:path/2015-03-31/functions/${aws_lambda_function.notify_lambda.arn}/invocations"
+  type                    = "AWS_PROXY"
+  uri                     = "arn:aws:apigateway:${var.myregion}:lambda:path/2015-03-31/functions/${aws_lambda_function.notify_lambda.arn}/invocations"
 }
 
 resource "aws_api_gateway_deployment" "slack_event_deployment" {
@@ -133,6 +133,7 @@ resource "aws_lambda_function" "notify_lambda" {
             WEB_HOOK_URL             = "set slack webhook url"
         }
     }
+    reserved_concurrent_executions = 1
 
     depends_on = [
         "aws_iam_role_policy_attachment.lambda_logs",
