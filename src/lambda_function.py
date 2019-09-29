@@ -2,6 +2,7 @@
 import os
 import requests
 import json
+import ast
 
 SLACK_VERIFICATION_TOKEN = os.environ["SLACK_VERIFICATION_TOKEN"]
 WEB_HOOK_URL = os.environ["WEB_HOOK_URL"]
@@ -26,15 +27,23 @@ def is_verify_token(event):
 
 def lambda_handler(event, context):
     # url verification
-    print(event)
-    if 'challenge' in event.keys():
-        return event['challenge']
+    print(event.get('body'))
+    body = json.loads(event.get('body'))
+    if 'challenge' in body.keys():
+        return {
+            'statusCode': 200,
+            'body': json.dumps(
+                {
+                    'challeng': body['challenge']
+                }
+            )
+        }
 
-    if not is_verify_token(event):
+    if not is_verify_token(body):
         raise Exception('Unexpected Token.')
 
-    event_type = event['event']['type']
-    channel = event['event']['channel']['name']
+    event_type = body['event']['type']
+    channel = body['event']['channel']['name']
 
     text = 'チャンネルが{event_msg}: #{channel}'.format(event_msg=description_of(event_type), channel=channel)
     payload = {
