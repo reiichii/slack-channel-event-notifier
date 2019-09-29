@@ -89,3 +89,10 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# terraform
+.terraform
+terraform.tfstate*
+
+# lambda
+lambda.zip
