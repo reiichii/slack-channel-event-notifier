@@ -27,7 +27,6 @@ def is_verify_token(event):
 
 def lambda_handler(event, context):
     # url verification
-    print(event.get('body'))
     body = json.loads(event.get('body'))
     if 'challenge' in body.keys():
         return {
@@ -50,3 +49,7 @@ def lambda_handler(event, context):
         'text': text
     }
     requests.post(WEB_HOOK_URL,  data=json.dumps(payload))
+
+    return {
+        'statusCode': 200
+    }
