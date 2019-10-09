@@ -2,7 +2,6 @@
 import os
 import requests
 import json
-import ast
 
 SLACK_VERIFICATION_TOKEN = os.environ["SLACK_VERIFICATION_TOKEN"]
 WEB_HOOK_URL = os.environ["WEB_HOOK_URL"]
