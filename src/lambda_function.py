@@ -10,9 +10,9 @@ WEB_HOOK_URL = os.environ["WEB_HOOK_URL"]
 
 def description_of(event_type):
     if event_type == 'channel_created':
-        return '作成されました'
+        return 'チャンネルが作成されました'
     elif event_type == 'channel_rename':
-        return '名前が変更されました'
+        return 'チャンネル名が変更されました'
     else:
         raise Exception('Unexcepted EventType: {}'.format(event_type))
 
@@ -44,12 +44,12 @@ def lambda_handler(event, context):
     event_type = body['event']['type']
     channel = body['event']['channel']['name']
 
-    text = 'チャンネルが{event_msg}: #{channel}'.format(event_msg=description_of(event_type), channel=channel)
+    text = '{event_msg}: #{channel}'.format(event_msg=description_of(event_type), channel=channel)
     payload = {
         'text': text
     }
     requests.post(WEB_HOOK_URL,  data=json.dumps(payload))
-
+    
     return {
         'statusCode': 200
     }
