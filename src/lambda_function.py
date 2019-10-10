@@ -45,7 +45,8 @@ def lambda_handler(event, context):
 
     text = '{event_msg}: #{channel}'.format(event_msg=description_of(event_type), channel=channel)
     payload = {
-        'text': text
+        'text': text,
+        'link_names': 1
     }
     requests.post(WEB_HOOK_URL,  data=json.dumps(payload))
     
